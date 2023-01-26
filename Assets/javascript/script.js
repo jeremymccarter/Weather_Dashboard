@@ -1,7 +1,20 @@
 var key = "2532ad69e22752509812a5e695cab215"
 
+
+//fetches weather api, uses if else to store searches locally
+
 function runApi() {
     var city = document.getElementById("searchcity").value
+    document.getElementById("cityhistory").innerHTML+="<li>"+city+"</li>"
+    var history = localStorage.getItem("history")
+    if(history){
+        localStorage.setItem("history",history+";"+city)
+    }    
+   else{
+    localStorage.setItem("history",city)
+
+   }
+    console.log(localStorage.getItem("history"))
     var fetchUrl = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=imperial&appid=" + key
     console.log(fetchUrl)
     fetch(fetchUrl)
@@ -38,46 +51,8 @@ function runApi() {
             .then(function (data) {
                 console.log(data);
 
-             /*   function displayFunction() {
-                    var x = document.querySelector("fivedayclass");
-                    if (x.style.display === "none") {
-                      x.style.display = "block";
-                    } else {
-                      x.style.display = "none";
-                    }
-                  }
-*/
 
-           // document.getElementById("icon0").innerHTML="<img src='"+"http://openweathermap.org/img/wn/"+data.list[0].weather.icon+".png'>"
-           // document.getElementById("temperature0").innerHTML=data.list[0].main.temp+" F"
-           // document.getElementById("humidity0").innerHTML=data.list[0].main.humidity+" %"
-           // document.getElementById("windspeed0").innerHTML=data.list[0].wind.speed+" mph"
-
-            
-         /*   document.getElementById("icon1").innerHTML="<img src='"+"http://openweathermap.org/img/wn/"+data.weather[0].icon+".png'>"
-            document.getElementById("temperature1").innerHTML=data.main.temp+" F"
-            document.getElementById("humidity1").innerHTML=data.main.humidity+" %"
-            document.getElementById("windspeed1").innerHTML=data.wind+" mph"
-
-
-            document.getElementById("icon2").innerHTML="<img src='"+"http://openweathermap.org/img/wn/"+data.weather[0].icon+".png'>"
-            document.getElementById("temperature2").innerHTML=data.main.temp+" F"
-            document.getElementById("humidity2").innerHTML=data.main.humidity+" %"
-            document.getElementById("windspeed2").innerHTML=data.wind.speed+" mph"
-
-           
-            document.getElementById("icon3").innerHTML="<img src='"+"http://openweathermap.org/img/wn/"+data.weather[0].icon+".png'>"
-            document.getElementById("temperature3").innerHTML=data.main.temp+" F"
-            document.getElementById("humidity3").innerHTML=data.main.humidity+" %"
-            document.getElementById("windspeed3").innerHTML=data.wind.speed+" mph"
-
-            
-            document.getElementById("icon4").innerHTML="<img src='"+"http://openweathermap.org/img/wn/"+data.weather[0].icon+".png'>"
-            document.getElementById("temperature4").innerHTML=data.main.temp+" F"
-            document.getElementById("humidity4").innerHTML=data.main.humidity+" %"
-            document.getElementById("windspeed4").innerHTML=data.wind.speed+" mph"
-*/
-
+            document.getElementById("fivedaydisplay").innerHTML=""
              for (let index = 0; index < 40; index+=8) {
                 var output = "<div>"
                 var date = data.list[index].dt_txt
@@ -99,5 +74,13 @@ function runApi() {
        
     }
 
-
+var citydata = localStorage.getItem("history")
+console.log(citydata)
+if(citydata){
+    var cities = citydata.split(";")
+    for (let index = 0; index < cities.length; index++) {
+        document.getElementById("cityhistory").innerHTML+="<li>"+cities[index]+"</li>"
+        
+    }    
+}
 document.getElementById("searchbutton").addEventListener("click",runApi)
