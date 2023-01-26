@@ -1,5 +1,10 @@
-#fiveday{
-display:flex
-
+#fivedaydisplay{
+flex-direction: row;
+display: flex;
+width: 100%;
+}
+#fivedaydisplay div{
+margin-right: 20px;
+width: 200px;
 
 }
