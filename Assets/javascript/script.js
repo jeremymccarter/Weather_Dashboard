@@ -21,6 +21,7 @@ function runApi() {
         .then(function (response) {
             return response.json();
         })
+        //using the array of the fetch to pull out the info we want to display
         .then(function (data) {
             console.log(data);
             console.log(data.main.temp)
@@ -38,12 +39,12 @@ function runApi() {
             document.getElementById("temperature").innerHTML=data.main.temp+" F"
             document.getElementById("humidity").innerHTML=data.main.humidity+" %"
             document.getElementById("windspeed").innerHTML=data.wind.speed+" mph"
-        
+            //concat the lat and longitutde to find the correct city
             var lat = data.coord.lat
             var lon = data.coord.lon
             var fiveDayUrl = "https://api.openweathermap.org/data/2.5/forecast?lat="+lat+"&lon="+lon+"&units=imperial&appid=" +key
 
-
+            //fetch for five day specific api
             fetch(fiveDayUrl)
             .then(function (response) {
                 return response.json();
@@ -51,7 +52,7 @@ function runApi() {
             .then(function (data) {
                 console.log(data);
 
-
+            //for loop that sorts through every 8 numbers in the array, as that is 24 hrs    
             document.getElementById("fivedaydisplay").innerHTML=""
              for (let index = 0; index < 40; index+=8) {
                 var output = "<div>"
@@ -73,7 +74,7 @@ function runApi() {
         })
        
     }
-
+//for loop that will display previous searches
 var citydata = localStorage.getItem("history")
 console.log(citydata)
 if(citydata){
@@ -83,4 +84,8 @@ if(citydata){
         
     }    
 }
+
+
+//event listener to run function and make button functional
 document.getElementById("searchbutton").addEventListener("click",runApi)
+
